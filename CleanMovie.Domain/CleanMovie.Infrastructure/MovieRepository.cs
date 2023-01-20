@@ -15,9 +15,24 @@ namespace CleanMovie.Infrastructure
             new Movie{Id=1, Name="Inception", Cost=5},
             new Movie{Id=2, Name="The black diamond", Cost=4}
         };
+
+        private readonly MovieDbContext _movieDbContext;
+
+        public MovieRepository(MovieDbContext movieDbContext)
+        {
+            _movieDbContext = movieDbContext;
+        }
+
+        public Movie CreateMovie(Movie movie)
+        {
+           _movieDbContext.Movies.Add(movie);
+           _movieDbContext.SaveChanges();
+            return movie;
+        }
+
         public List<Movie> GetAllMovies()
         {
-            return movies;
+            return _movieDbContext.Movies.ToList();
         }
     }
 }
